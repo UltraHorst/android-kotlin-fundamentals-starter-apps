@@ -23,6 +23,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.android.navigation.databinding.FragmentGameBinding
 
 class GameFragment : Fragment() {
@@ -34,6 +35,12 @@ class GameFragment : Fragment() {
     // All questions must have four answers.  We'd want these to contain references to string
     // resources so we could internationalize. (Or better yet, don't define the questions in code...)
     private val questions: MutableList<Question> = mutableListOf(
+            // My custom questions
+            Question(text = "How to make DrawerMenu available on multiple fragments?",
+                    answers = listOf("AppBarConfiguration", "activity_main.xml", "NavController", "DrawerLayout")),
+            Question(text = "How do you reference data class in a fragment's private function?",
+                    answers = listOf("pass binding parameter", "make function public", "make variables public", "It's impossible")),
+            // Default questions
             Question(text = "What is Android Jetpack?",
                     answers = listOf("All of these", "Tools", "Documentation", "Libraries")),
             Question(text = "What is the base class for layouts?",
@@ -99,9 +106,17 @@ class GameFragment : Fragment() {
                         binding.invalidateAll()
                     } else {
                         // We've won!  Navigate to the gameWonFragment.
+                        //view.findNavController().navigate(R.id.action_gameFragment_to_gameWonFragment)
+
+                        //Navigate using GameFragmentDirections in order to pass data through fragments
+                        view.findNavController().navigate(GameFragmentDirections.actionGameFragmentToGameWonFragment())
                     }
                 } else {
                     // Game over! A wrong answer sends us to the gameOverFragment.
+                    // view.findNavController().navigate(R.id.action_gameFragment_to_gameOverFragment)
+
+                    // Navigate using GameFragmentDirections in order to pass data through fragments
+                    view.findNavController().navigate(GameFragmentDirections.actionGameFragmentToGameOverFragment())
                 }
             }
         }

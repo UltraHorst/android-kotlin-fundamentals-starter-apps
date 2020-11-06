@@ -17,18 +17,40 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!--Add DrawerLayout as root layout-->
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
+            <!--Create a fragment in this activity
+                name it as NavHostFragment
+                make defaultNavHost
+                point to navGraph-->
             <fragment
+                android:id="@+id/myNavHostFragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/titleFragment"
-                android:name="com.example.android.navigation.TitleFragment"/>
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/navigation" />
 
         </LinearLayout>
 
+
+        <!--Add navView component and connect to header and menu layout
+            Note: Don't make this part of LinearLayout-->
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/nav_header"
+            app:menu="@menu/navdrawer_menu" />
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
