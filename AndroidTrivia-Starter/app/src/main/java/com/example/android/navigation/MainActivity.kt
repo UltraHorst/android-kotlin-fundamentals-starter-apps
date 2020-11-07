@@ -19,22 +19,43 @@ package com.example.android.navigation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.android.navigation.databinding.ActivityMainBinding
+
+// create drawerLayout lateinit
+private lateinit var drawerLayout: DrawerLayout
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         @Suppress("UNUSED_VARIABLE")
+
+        // inflate Layout
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+
+        //DrawerLayout Initialize drawerLayout
+        drawerLayout = binding.drawerLayout
+
+        //NavController: Create NavController and initialize it with NavHostFragment
+        val navController = this.findNavController(R.id.myNavHostFragment)
+
+
+        //DrawerLayout: Connect navView content to NavController
+        NavigationUI.setupWithNavController(binding.navView, navController)
+
+        //ActionBar: Setup NavigationUI Actionbar and include NavController and DrawerLayout
+        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+
+
     }
 
-    // TODO (01) Create the new TitleFragment
-    // Select File->New->Fragment->Fragment (Blank)
+    //ActionBar: Override NavigateuUp to display either UpButton or DrawerLayout
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = this.findNavController(R.id.myNavHostFragment)
+        return NavigationUI.navigateUp(navController, drawerLayout)
+    }
 
-    // TODO (02) Clean up the new TitleFragment
-    // In our new TitleFragment
 
-    // TODO (03) Use DataBindingUtil.inflate to inflate and return the titleFragment in onCreateView
-    // In our new TitleFragment
-    // R.layout.fragment_title
 }
